@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 
@@ -14,7 +14,8 @@ export class EditRecipePage implements OnInit{
   mode = "New";
   recipeForm: FormGroup;
 
-  constructor (private navParams: NavParams) {}
+  constructor (private navParams: NavParams,
+    private actionSheetController: ActionSheetController) {}
 
   ngOnInit(){
     this.mode = this.navParams.get('mode');
@@ -23,6 +24,31 @@ export class EditRecipePage implements OnInit{
 
   onSubmit(){
     console.log(this.recipeForm);
+  }
+
+  onManageIngredients(){
+    const actionSheet = this.actionSheetController.create({
+      title: "What do you want todo?",
+      buttons: [
+        {
+          text:'Add Ingridients',
+          handler: () => {
+
+          }
+        },
+        {
+          text: 'Remove all ingredients',
+          role:'destructive',
+          handler: () => {
+
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    })
   }
 
   private initializeForm(){
