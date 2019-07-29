@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { IonicPage, NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { text } from '@angular/core/src/render3/instructions';
 
 
 @IonicPage()
@@ -15,7 +16,8 @@ export class EditRecipePage implements OnInit{
   recipeForm: FormGroup;
 
   constructor (private navParams: NavParams,
-    private actionSheetController: ActionSheetController) {}
+    private actionSheetController: ActionSheetController,
+    private alertCtrl: AlertController) {}
 
   ngOnInit(){
     this.mode = this.navParams.get('mode');
@@ -51,11 +53,39 @@ export class EditRecipePage implements OnInit{
     })
   }
 
+  private createNewIngredientsAlert(){
+    const newIngredientsAlert = this.alertCtrl.create({
+      title: 'Add Ingredients',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Add',
+          handler: data => {
+            if(data.name.trim() == '' || data.name == null){
+
+            }
+          }
+        }
+      ]
+
+    })
+  }
+
   private initializeForm(){
     this.recipeForm = new FormGroup({
       'title': new FormControl(null, Validators.required),
       'description': new FormControl(null, Validators.required),
-      'difficulty': new FormControl('Medium', Validators.required)
+      'difficulty': new FormControl('Medium', Validators.required),
+      'ingredients': new FormArray([])
     });
   }
 
